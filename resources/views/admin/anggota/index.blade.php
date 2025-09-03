@@ -1,6 +1,6 @@
 @extends('app')
-@section('content', 'Manage Anggota')
-@section('title')
+@section('title','Manage Anggota')
+@section('content' )
     <div class="card">
         <div class="card-header">
             <div class="card-title">Manage Anggota</div>

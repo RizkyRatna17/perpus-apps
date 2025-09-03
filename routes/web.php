@@ -51,6 +51,12 @@ Route::middleware('auth')->group(function () {
     route::delete('buku/destroy/{id}', [\App\Http\Controllers\BookController::class, 'destroy'])->name('buku.destroy');
 
 
+    //Pinjam Buku
+    //kalo resource tidak pake kurung siku
+    route::resource('transaction', \App\Http\Controllers\TransactionController::class);
+    route::get('get-buku/{id}',[\App\Http\Controllers\TransactionController::class, 'getBukuByIdCategory']);
+
+
 
 
 
