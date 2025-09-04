@@ -155,14 +155,23 @@
                 alert('Select buku terlebih dahulu!');
                 return;
             }
+            const no = count++
             // const no = tbody.querySelectorAll('tr').length + 1;
             const tr = document.createElement('tr');
             tr.innerHTML = `
-            <td>${no}<td>
-                <td>${NameBook}<td>
-                    <td><button class= 'btn btn-sm btn-danger'>Hapus</button></td>
-                    `
+            <td>${no}</td>
+                <td>${NameBook}<input type ='hidden' name='id_buku[]' value='${idBook}'></td>
+                    <td><button type='button' class= 'btn btn-sm btn-danger delete-row'>Hapus</button></td>
+                    `;
+            console.log(tr);
             tbody.appendChild(tr);
+        });
+
+        // (e) dibawah adalah apa aja yang ada di dalam tbody
+        document.querySelector('#tableTrans tbody').addEventListener('click', function(e) {
+            if (e.target.classList.contains('delete-row')) {
+                e.target.closest('tr').remove();
+            }
         });
     </script>
 
