@@ -54,8 +54,10 @@ Route::middleware('auth')->group(function () {
     //Pinjam Buku
     //kalo resource tidak pake kurung siku
     route::resource('transaction', \App\Http\Controllers\TransactionController::class);
-    route::get('get-buku/{id}',[\App\Http\Controllers\TransactionController::class, 'getBukuByIdCategory']);
-    route::get('print-peminjam/{id}',[\App\Http\Controllers\TransactionController::class, 'print']);
+    route::get('get-buku/{id}', [\App\Http\Controllers\TransactionController::class, 'getBukuByIdCategory']);
+    route::get('print-peminjam/{id}', [\App\Http\Controllers\TransactionController::class, 'print'])->name('print-peminjam');
+    route::post('transaction/{id}/return', [\App\Http\Controllers\TransactionController::class, 'returnBook'])->name('transaction.return');
+
 
 
 
