@@ -53,10 +53,16 @@ Route::middleware('auth')->group(function () {
 
     //Pinjam Buku
     //kalo resource tidak pake kurung siku
-    route::resource('transaction', \App\Http\Controllers\TransactionController::class);
+    route::resource('transaction', \App\Http\Controllers\TransactionController::class)->middleware('role:User'); //yang mengakses hanya user
     route::get('get-buku/{id}', [\App\Http\Controllers\TransactionController::class, 'getBukuByIdCategory']);
     route::get('print-peminjam/{id}', [\App\Http\Controllers\TransactionController::class, 'print'])->name('print-peminjam');
     route::post('transaction/{id}/return', [\App\Http\Controllers\TransactionController::class, 'returnBook'])->name('transaction.return');
+
+    route::resource('role', \App\Http\Controllers\RoleController::class);
+    route::resource('user', \App\Http\Controllers\UserController::class);
+    route::get('user/{id}/role', [\App\Http\Controllers\UserController::class, 'editRole'])->name('user.roles');
+    route::post('user/{id}/updateRoles', [\App\Http\Controllers\UserController::class, 'updateRoles'])->name('user.updateRoles');
+
 
 
 
