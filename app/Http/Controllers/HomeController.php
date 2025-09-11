@@ -2,36 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use App\Models\Books;
 use App\Models\Borrows;
+
 use Illuminate\Http\Request;
 use App\Models\DetailBorrows;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $totalBooks = Books::count();
+        $title = 'Dashboard';
+        $totalBook = Books::count();
         $totalStock = Books::sum('stok');
 
-        //buku yang dipinjam
-        //Nyari dari table detail_buku ada tidak buku yang sedang dipinjam , kalo ada actual_date nya= null
-        //tampilkan semua data dari detail_borrow punya relasi ke ke book on book.id =detail_borrow.id_book
-        //join borrow on borrows.id = detail_borrow.id_borrow WHERE actual_date = null
-
-        $borrowedBooks = DetailBorrows::with('book', 'borrow')->whereHas('borrow', function ($q) {
+        // nyari dari detail_Book ada tidak buku yang sedang di pinjam, actual_date = null;
+        // select * from detailBorrows join book on book.id = detail_borrow.id_book
+        // join borrow on borrow.id = detail_borrows.id_borrow WHERE actual_date = null
+        $diPinjam = DetailBorrows::with('book', 'borrow')->whereHas('borrow', function ($q) {
             $q->whereNull('actual_return_date');
         })->count();
+        // $sisaDipinjam =
 
-
-        //Buku yang sudah dikembalikan
         $returnBooks = Borrows::where('status', 0)->whereNotNull('actual_return_date')->count();
         $notReturnBooks = Borrows::where('status', 1)->whereNull('actual_return_date')->count();
 
         $fines = Borrows::with('member')->where('fine', '>', 0)->get();
         $totalFines = Borrows::sum('fine');
-
-        return view('admin.dashboard', compact('totalBooks', 'totalStock', 'borrowedBooks', 'returnBooks', 'notReturnBooks', 'fines', 'totalFines'));
+        return view('admin.dashboard', compact('title', 'totalBook', 'totalStock', 'diPinjam', 'returnBooks', 'notReturnBooks', 'fines', 'totalFines'));
     }
+
+    // public function logout(Request $request)
+    // {
+    //     Auth::logout();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+
+    //     return redirect('/login');
+    // }
 }

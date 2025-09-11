@@ -12,7 +12,7 @@ Route::post('login', [\App\Http\Controllers\LoginController::class, 'actionLogin
 
 Route::middleware('auth')->group(function () {
     route::get('dashboard', [\App\Http\Controllers\HomeController::class, 'index']);
-    route::post('logout', [\App\Http\Controllers\HomeController::class, 'logout']);
+    route::post('logout', [\App\Http\Controllers\LoginController::class, 'logout']);
     //Anggota:
     route::get('anggota/index', [\App\Http\Controllers\AnggotaController::class, 'index']);
     route::get('anggota/create', [\App\Http\Controllers\AnggotaController::class, 'create']);
